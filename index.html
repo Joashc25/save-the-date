@@ -1,387 +1,409 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, MapPin, Heart, BookOpen, Clock, Users, Camera, MessageCircle, Sparkles } from 'lucide-react';
-
-const FallingPetals = () => {
-  const [petals, setPetals] = useState([]);
-
-  useEffect(() => {
-    const newPetals = Array.from({ length: 25 }).map((_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      delay: Math.random() * 10,
-      duration: 12 + Math.random() * 18,
-      size: 12 + Math.random() * 14,
-      rotation: Math.random() * 360,
-      type: Math.random() > 0.5 ? '💮' : '⚪'
-    }));
-    setPetals(newPetals);
-  }, []);
-
-  return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {petals.map((petal) => (
-        <div
-          key={petal.id}
-          className="absolute opacity-60 animate-fall"
-          style={{
-            left: `${petal.left}%`,
-            top: '-20px',
-            color: petal.type === '💮' ? '#FFFFFF' : '#FFF9F5',
-            filter: 'drop-shadow(0 0 2px rgba(255,255,255,0.8))',
-            animationDelay: `${petal.delay}s`,
-            animationDuration: `${petal.duration}s`,
-            fontSize: `${petal.size}px`,
-            transform: `rotate(${petal.rotation}deg)`,
-          }}
-        >
-          {petal.type === '⚪' ? (
-            <div className="w-4 h-5 bg-white rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] rotate-45 shadow-sm opacity-80" />
-          ) : (
-            petal.type
-          )}
-        </div>
-      ))}
-      <style>{`
-        @keyframes fall {
-          0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
-          10% { opacity: 0.7; }
-          50% { transform: translateY(50vh) rotate(360deg) translateX(20px); }
-          90% { opacity: 0.7; }
-          100% { transform: translateY(110vh) rotate(720deg) translateX(-20px); opacity: 0; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clarissa & Joash - Save the Date</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Playfair Display', serif;
+            scroll-behavior: smooth;
         }
-        .animate-fall {
-          animation: fall linear infinite;
+        .font-sans {
+            font-family: 'Inter', sans-serif;
         }
-      `}</style>
-    </div>
-  );
-};
-
-// Animation 1: Couple on a Date (2023)
-const DateAnimation = () => (
-  <div className="relative w-full h-full bg-[#2D1B33] flex items-center justify-center overflow-hidden">
-    {[...Array(12)].map((_, i) => (
-      <div 
-        key={i}
-        className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
-        style={{ 
-          top: `${Math.random() * 100}%`, 
-          left: `${Math.random() * 100}%`,
-          animationDelay: `${Math.random() * 2}s`
-        }}
-      />
-    ))}
-    <svg viewBox="0 0 200 150" className="w-4/5 h-4/5">
-      <rect x="60" y="110" width="80" height="5" rx="2" fill="#4A3E4D" />
-      <g className="animate-float-slow">
-        <circle cx="80" cy="85" r="8" fill="#D8B4FE" opacity="0.9" />
-        <path d="M70 110 Q80 95 90 110" fill="#D8B4FE" opacity="0.7" />
-        <circle cx="120" cy="85" r="8" fill="#C084FC" opacity="0.9" />
-        <path d="M110 110 Q120 95 130 110" fill="#C084FC" opacity="0.7" />
-      </g>
-      <g className="animate-heart-beat origin-center" style={{ transformBox: 'fill-box', transformOrigin: 'center' }}>
-        <path d="M100 70 Q100 60 110 60 Q120 60 120 70 Q120 85 100 95 Q80 85 80 70 Q80 60 90 60 Q100 60 100 70" fill="#F472B6" />
-      </g>
-    </svg>
-    <style>{`
-      @keyframes float-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-      .animate-float-slow { animation: float-slow 3s ease-in-out infinite; }
-      @keyframes heart-beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-      .animate-heart-beat { animation: heart-beat 1.5s ease-in-out infinite; }
-    `}</style>
-  </div>
-);
-
-// Animation 2: Kiss on the Cheek (2024)
-const KissAnimation = () => (
-  <div className="relative w-full h-full bg-[#362640] flex items-center justify-center overflow-hidden">
-    <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-purple-400"></div>
-    <svg viewBox="0 0 200 150" className="w-4/5 h-4/5">
-      <g className="translate-y-10">
-        <g>
-          <circle cx="115" cy="65" r="10" fill="#E9D5FF" />
-          <path d="M100 100 Q115 80 130 100" fill="#E9D5FF" opacity="0.8" />
-        </g>
-        <g className="animate-kiss-action">
-          <circle cx="85" cy="65" r="10" fill="#C084FC" />
-          <path d="M70 100 Q85 80 100 100" fill="#C084FC" opacity="0.8" />
-        </g>
-      </g>
-      <g className="animate-hearts-rise opacity-0">
-        <path d="M110 50 Q110 45 115 45 Q120 45 120 50 Q120 57 110 62 Q100 57 100 50 Q100 45 105 45 Q110 45 110 50" fill="#F472B6" />
-      </g>
-    </svg>
-    <style>{`
-      @keyframes kiss-action { 0%, 100% { transform: translateX(0); } 40%, 60% { transform: translateX(12px) rotate(5deg); } }
-      .animate-kiss-action { animation: kiss-action 3s ease-in-out infinite; }
-      @keyframes hearts-rise { 0% { transform: translateY(10px) scale(0.5); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-30px) scale(1.2); opacity: 0; } }
-      .animate-hearts-rise { animation: hearts-rise 3s ease-in-out infinite; }
-    `}</style>
-  </div>
-);
-
-// Animation 3: The Ring Proposal (Nov 2024)
-const ProposalAnimation = () => (
-  <div className="relative w-full h-full bg-[#2A1B3D] flex items-center justify-center overflow-hidden">
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#4C1D95_0%,_transparent_70%)] opacity-40"></div>
-    <svg viewBox="0 0 200 200" className="w-full h-full">
-      <rect x="60" y="100" width="80" height="40" rx="4" fill="#5B21B6" />
-      <g className="animate-lid-open origin-bottom" style={{ transformBox: 'fill-box', transformOrigin: 'bottom' }}>
-        <rect x="60" y="60" width="80" height="40" rx="4" fill="#7C3AED" />
-      </g>
-      <g className="animate-ring-reveal">
-        <ellipse cx="100" cy="100" rx="15" ry="15" fill="none" stroke="#FDE68A" strokeWidth="2.5" />
-        <g className="translate-y-[-15px]">
-          <path d="M100 85 L108 93 L100 101 L92 93 Z" fill="white" className="animate-pulse" />
-        </g>
-      </g>
-    </svg>
-    <style>{`
-      @keyframes lid-open { 0%, 20% { transform: translateY(0) rotateX(0deg); } 50%, 100% { transform: translateY(-35px) rotateX(-110deg); } }
-      .animate-lid-open { animation: lid-open 4s ease-in-out infinite; perspective: 1000px; }
-      @keyframes ring-reveal { 0%, 25% { transform: translateY(20px) scale(0.5); opacity: 0; } 60%, 100% { transform: translateY(0) scale(1); opacity: 1; } }
-      .animate-ring-reveal { animation: ring-reveal 4s ease-in-out infinite; }
-    `}</style>
-  </div>
-);
-
-// Animation 4: Bride and Groom Side by Side with Cross (2026)
-const WeddingAnimation = () => (
-  <div className="relative w-full h-full bg-[#3B2B47] flex items-center justify-center overflow-hidden">
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#6D28D9_0%,_transparent_70%)] opacity-30"></div>
-    
-    {[...Array(8)].map((_, i) => (
-      <div 
-        key={i}
-        className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
-        style={{ 
-          top: `${Math.random() * 100}%`, 
-          left: `${Math.random() * 100}%`,
-          animationDelay: `${i * 0.5}s`
-        }}
-      />
-    ))}
-
-    <svg viewBox="0 0 200 200" className="w-4/5 h-4/5">
-      <g className="animate-cross-glow">
-        <line x1="100" y1="30" x2="100" y2="120" stroke="#FDE68A" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
-        <line x1="80" y1="60" x2="120" y2="60" stroke="#FDE68A" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
-        <circle cx="100" cy="60" r="12" fill="white" className="blur-[10px] animate-pulse" opacity="0.4" />
-      </g>
-
-      <path d="M40 160 Q100 155 160 160" stroke="#A78BFA" strokeWidth="2" fill="none" opacity="0.5" />
-
-      <g className="translate-y-10">
-        <g className="translate-x-[-6]">
-          <circle cx="100" cy="115" r="8" fill="#D8B4FE" />
-          <path d="M90 150 L100 125 L110 150 Z" fill="#D8B4FE" opacity="0.9" />
-        </g>
-        <g className="translate-x-6">
-          <circle cx="100" cy="115" r="8" fill="#FDFCF8" />
-          <path d="M85 150 Q100 120 115 150 Z" fill="#FDFCF8" opacity="0.9" />
-          <path d="M100 115 Q115 115 125 140" stroke="#FDFCF8" strokeWidth="1" fill="none" opacity="0.5" className="animate-float-slow" />
-        </g>
-      </g>
-
-      <g className="animate-pulse">
-        <circle cx="100" cy="120" r="1.5" fill="white" />
-        <circle cx="85" cy="135" r="1.2" fill="#FDE68A" />
-        <circle cx="115" cy="130" r="1.2" fill="#FDE68A" />
-      </g>
-    </svg>
-
-    <style>{`
-      @keyframes cross-glow { 0%, 100% { filter: drop-shadow(0 0 5px #FDE68A); } 50% { filter: drop-shadow(0 0 15px #FDE68A); } }
-      .animate-cross-glow { animation: cross-glow 4s ease-in-out infinite; }
-      @keyframes float-slow { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
-      .animate-float-slow { animation: float-slow 3s ease-in-out infinite; }
-    `}</style>
-  </div>
-);
-
-const App = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const weddingDetails = {
-    couple: "Clarissa & Joash",
-    date: "9th of May 2026",
-    location: "Sweethome Farm, Eston",
-    theme: "Our Next Chapter",
-    storySteps: [
-      {
-        year: "2023",
-        title: "The First Page",
-        description: "The moment our story truly began. A choice to walk together that turned into the most romantic journey of our lives.",
-        icon: <Sparkles className="w-6 h-6" />,
-        animation: <DateAnimation />
-      },
-      {
-        year: "2024",
-        title: "Growing Together",
-        description: "Adventuring through life, cherishing every moment, and watching our love bloom into something beautiful with every passing day.",
-        icon: <Camera className="w-6 h-6" />,
-        animation: <KissAnimation />
-      },
-      {
-        year: "Nov 2024",
-        title: "The Magic Moment",
-        description: "A proposal and the easiest 'Yes' ever spoken. A promise made under the stars to keep writing our story forever.",
-        icon: <Heart className="w-6 h-6" />,
-        animation: <ProposalAnimation />
-      },
-      {
-        year: "2026",
-        title: "The Ever After",
-        description: "Join us as we turn the page to our most beautiful chapter yet, surrounded by our favorite people at Sweethome Farm.",
-        icon: <BookOpen className="w-6 h-6" />,
-        animation: <WeddingAnimation />
-      }
-    ]
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F5F3FF] via-[#FDFCF8] to-[#E9D5FF] text-[#3D3445] font-serif selection:bg-purple-100 relative overflow-x-hidden">
-      <FallingPetals />
-
-      <section className="relative h-screen flex flex-col items-center justify-center px-6 overflow-hidden border-b border-purple-100 text-center">
-        <div className="absolute top-1/4 left-1/3 w-80 h-80 bg-purple-300/20 blur-[120px] rounded-full"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-indigo-200/20 blur-[120px] rounded-full"></div>
         
-        <div className={`z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-          <span className="uppercase tracking-[0.5em] text-[10px] mb-6 block text-purple-600 font-sans font-bold">You are invited to the beginning of</span>
-          <h1 className="text-6xl md:text-9xl mb-8 font-light italic text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#C084FC] to-[#818CF8] animate-pulse-slow">
-            {weddingDetails.couple}
-          </h1>
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="w-16 h-px bg-purple-200"></div>
-            <Sparkles className="text-purple-400 w-5 h-5" />
-            <div className="w-16 h-px bg-purple-200"></div>
-          </div>
-          <p className="text-xl md:text-3xl italic text-purple-800/60 mb-12 max-w-2xl mx-auto leading-relaxed">
-            "Our Next Chapter"
-          </p>
-          
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-xs font-sans uppercase tracking-[0.3em] text-purple-900/60">
-            <div className="flex items-center gap-3 bg-white/50 backdrop-blur-md px-8 py-4 rounded-full border border-purple-100 shadow-sm hover:shadow-md transition-shadow">
-              <Calendar className="text-purple-500 w-4 h-4" />
-              <span>{weddingDetails.date}</span>
+        /* Falling Petals Keyframes */
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+            10% { opacity: 0.7; }
+            50% { transform: translateY(50vh) rotate(360deg) translateX(20px); }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(110vh) rotate(720deg) translateX(-20px); opacity: 0; }
+        }
+        .petal {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: fall linear infinite;
+        }
+
+        /* Hero Animations */
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        .animate-pulse-slow { animation: pulse-slow 6s ease-in-out infinite; }
+
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .animate-bounce-slow { animation: bounce-slow 5s ease-in-out infinite; }
+
+        /* Story Animations */
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .animate-float-slow { animation: float-slow 3s ease-in-out infinite; }
+
+        @keyframes heart-beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .animate-heart-beat { animation: heart-beat 1.5s ease-in-out infinite; }
+
+        @keyframes kiss-action {
+            0%, 100% { transform: translateX(0); }
+            40%, 60% { transform: translateX(12px) rotate(5deg); }
+        }
+        .animate-kiss-action { animation: kiss-action 3s ease-in-out infinite; }
+
+        @keyframes hearts-rise {
+            0% { transform: translateY(10px) scale(0.5); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-30px) scale(1.2); opacity: 0; }
+        }
+        .animate-hearts-rise { animation: hearts-rise 3s ease-in-out infinite; }
+
+        @keyframes lid-open {
+            0%, 20% { transform: translateY(0) rotateX(0deg); }
+            50%, 100% { transform: translateY(-35px) rotateX(-110deg); }
+        }
+        .animate-lid-open { animation: lid-open 4s ease-in-out infinite; transform-origin: bottom; }
+
+        @keyframes ring-reveal {
+            0%, 25% { transform: translateY(20px) scale(0.5); opacity: 0; }
+            60%, 100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .animate-ring-reveal { animation: ring-reveal 4s ease-in-out infinite; }
+
+        @keyframes cross-glow {
+            0%, 100% { filter: drop-shadow(0 0 5px #FDE68A); }
+            50% { filter: drop-shadow(0 0 15px #FDE68A); }
+        }
+        .animate-cross-glow { animation: cross-glow 4s ease-in-out infinite; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-[#F5F3FF] via-[#FDFCF8] to-[#E9D5FF] text-[#3D3445] selection:bg-purple-100 overflow-x-hidden">
+
+    <div id="petal-container"></div>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex flex-col items-center justify-center px-6 overflow-hidden border-b border-purple-100 text-center">
+        <div class="absolute top-1/4 left-1/3 w-80 h-80 bg-purple-300/20 blur-[120px] rounded-full"></div>
+        <div class="absolute bottom-1/4 right-1/3 w-80 h-80 bg-indigo-200/20 blur-[120px] rounded-full"></div>
+        
+        <div class="z-10 transition-all duration-1000 opacity-0 scale-95" id="hero-content">
+            <span class="uppercase tracking-[0.5em] text-[10px] mb-6 block text-purple-600 font-sans font-bold">You are invited to the beginning of</span>
+            <h1 class="text-6xl md:text-9xl mb-8 font-light italic text-transparent bg-clip-text bg-gradient-to-r from-[#A78BFA] via-[#C084FC] to-[#818CF8] animate-pulse-slow">
+                Clarissa & Joash
+            </h1>
+            <div class="flex items-center justify-center gap-4 mb-8">
+                <div class="w-16 h-px bg-purple-200"></div>
+                <i data-lucide="sparkles" class="text-purple-400 w-5 h-5"></i>
+                <div class="w-16 h-px bg-purple-200"></div>
             </div>
-            <div className="flex items-center gap-3 bg-white/50 backdrop-blur-md px-8 py-4 rounded-full border border-purple-100 shadow-sm hover:shadow-md transition-shadow">
-              <MapPin className="text-purple-500 w-4 h-4" />
-              <span>{weddingDetails.location}</span>
+            <p class="text-xl md:text-3xl italic text-purple-800/60 mb-12 max-w-2xl mx-auto leading-relaxed">
+                "Our Next Chapter"
+            </p>
+            
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 text-xs font-sans uppercase tracking-[0.3em] text-purple-900/60">
+                <div class="flex items-center gap-3 bg-white/50 backdrop-blur-md px-8 py-4 rounded-full border border-purple-100 shadow-sm">
+                    <i data-lucide="calendar" class="text-purple-500 w-4 h-4"></i>
+                    <span>9th of May 2026</span>
+                </div>
+                <div class="flex items-center gap-3 bg-white/50 backdrop-blur-md px-8 py-4 rounded-full border border-purple-100 shadow-sm">
+                    <i data-lucide="map-pin" class="text-purple-500 w-4 h-4"></i>
+                    <span>Sweethome Farm, Eston</span>
+                </div>
             </div>
-          </div>
         </div>
-        <div className="absolute bottom-10 flex flex-col items-center">
-          <span className="text-[9px] uppercase tracking-[0.4em] text-purple-400 mb-2 font-sans font-bold animate-pulse">Scroll for Magic</span>
-          <div className="w-px h-16 bg-gradient-to-b from-purple-300 via-purple-100 to-transparent"></div>
+        <div class="absolute bottom-10 flex flex-col items-center">
+            <span class="text-[9px] uppercase tracking-[0.4em] text-purple-400 mb-2 font-sans font-bold animate-pulse">Scroll for Magic</span>
+            <div class="w-px h-16 bg-gradient-to-b from-purple-300 via-purple-100 to-transparent"></div>
         </div>
-      </section>
+    </section>
 
-      <section className="py-32 px-6 max-w-5xl mx-auto relative">
-        <div className="text-center mb-28">
-          <h2 className="text-5xl font-light mb-4 italic text-purple-950">The Story So Far</h2>
-          <p className="text-purple-400 font-sans uppercase tracking-[0.3em] text-[11px] font-bold">Pages from our floral fairy tale</p>
+    <!-- Story Timeline -->
+    <section class="py-32 px-6 max-w-5xl mx-auto relative">
+        <div class="text-center mb-28 reveal">
+            <h2 class="text-5xl font-light mb-4 italic text-purple-950">The Story So Far</h2>
+            <p class="text-purple-400 font-sans uppercase tracking-[0.3em] text-[11px] font-bold">Pages from our floral fairy tale</p>
         </div>
 
-        <div className="relative">
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-[2px] bg-gradient-to-b from-purple-100 via-indigo-200 to-purple-100 hidden md:block rounded-full"></div>
+        <div class="relative">
+            <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-[2px] bg-gradient-to-b from-purple-100 via-indigo-200 to-purple-100 hidden md:block rounded-full"></div>
 
-          <div className="space-y-40">
-            {weddingDetails.storySteps.map((step, index) => (
-              <div key={index} className={`flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 ${index % 2 === 0 ? '' : 'md:flex-row-reverse'}`}>
-                <div className={`flex-1 w-full ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                  <span className="text-purple-300 font-sans font-black text-3xl mb-2 block tracking-tighter opacity-40">{step.year}</span>
-                  <h3 className="text-3xl mb-4 font-light italic text-purple-900">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed font-light text-lg">{step.description}</p>
+            <div class="space-y-40">
+                <!-- 2023 -->
+                <div class="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 reveal">
+                    <div class="flex-1 w-full md:text-right">
+                        <span class="text-purple-300 font-sans font-black text-3xl mb-2 block tracking-tighter opacity-40">2023</span>
+                        <h3 class="text-3xl mb-4 font-light italic text-purple-900">The First Page</h3>
+                        <p class="text-gray-600 leading-relaxed font-light text-lg">The moment our story truly began. A choice to walk together that turned into the most romantic journey of our lives.</p>
+                    </div>
+                    <div class="relative z-10 w-24 h-24 rounded-full bg-white border-2 border-purple-100 flex items-center justify-center text-purple-400 shadow-[0_0_30px_rgba(192,132,252,0.3)]">
+                        <i data-lucide="sparkles" class="w-6 h-6"></i>
+                    </div>
+                    <div class="flex-1 w-full aspect-square md:aspect-[4/3] max-w-sm rounded-[2.5rem] overflow-hidden bg-[#2D1B33] shadow-2xl relative">
+                        <!-- Date Animation -->
+                        <div class="relative w-full h-full flex items-center justify-center overflow-hidden">
+                            <svg viewBox="0 0 200 150" class="w-4/5 h-4/5">
+                                <rect x="60" y="110" width="80" height="5" rx="2" fill="#4A3E4D" />
+                                <g class="animate-float-slow">
+                                    <circle cx="80" cy="85" r="8" fill="#D8B4FE" opacity="0.9" />
+                                    <path d="M70 110 Q80 95 90 110" fill="#D8B4FE" opacity="0.7" />
+                                    <circle cx="120" cy="85" r="8" fill="#C084FC" opacity="0.9" />
+                                    <path d="M110 110 Q120 95 130 110" fill="#C084FC" opacity="0.7" />
+                                </g>
+                                <g class="animate-heart-beat origin-center">
+                                    <path d="M100 70 Q100 60 110 60 Q120 60 120 70 Q120 85 100 95 Q80 85 80 70 Q80 60 90 60 Q100 60 100 70" fill="#F472B6" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="relative z-10 w-24 h-24 rounded-full bg-white border-2 border-purple-100 flex items-center justify-center text-purple-400 shadow-[0_0_30px_rgba(192,132,252,0.3)] hover:scale-110 transition-transform cursor-default">
-                  {step.icon}
+                <!-- 2024 -->
+                <div class="flex flex-col md:flex-row-reverse items-center justify-center gap-12 md:gap-24 reveal">
+                    <div class="flex-1 w-full md:text-left">
+                        <span class="text-purple-300 font-sans font-black text-3xl mb-2 block tracking-tighter opacity-40">2024</span>
+                        <h3 class="text-3xl mb-4 font-light italic text-purple-900">Growing Together</h3>
+                        <p class="text-gray-600 leading-relaxed font-light text-lg">Adventuring through life, cherishing every moment, and watching our love bloom into something beautiful with every passing day.</p>
+                    </div>
+                    <div class="relative z-10 w-24 h-24 rounded-full bg-white border-2 border-purple-100 flex items-center justify-center text-purple-400 shadow-[0_0_30px_rgba(192,132,252,0.3)]">
+                        <i data-lucide="camera" class="w-6 h-6"></i>
+                    </div>
+                    <div class="flex-1 w-full aspect-square md:aspect-[4/3] max-w-sm rounded-[2.5rem] overflow-hidden bg-[#362640] shadow-2xl relative">
+                        <!-- Kiss Animation -->
+                        <div class="relative w-full h-full flex items-center justify-center overflow-hidden">
+                            <svg viewBox="0 0 200 150" class="w-4/5 h-4/5">
+                                <g class="translate-y-10">
+                                    <circle cx="115" cy="65" r="10" fill="#E9D5FF" />
+                                    <path d="M100 100 Q115 80 130 100" fill="#E9D5FF" opacity="0.8" />
+                                    <g class="animate-kiss-action">
+                                        <circle cx="85" cy="65" r="10" fill="#C084FC" />
+                                        <path d="M70 100 Q85 80 100 100" fill="#C084FC" opacity="0.8" />
+                                    </g>
+                                </g>
+                                <g class="animate-hearts-rise">
+                                    <path d="M110 50 Q110 45 115 45 Q120 45 120 50 Q120 57 110 62 Q100 57 100 50 Q100 45 105 45 Q110 45 110 50" fill="#F472B6" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="flex-1 w-full aspect-square md:aspect-[4/3] max-w-sm rounded-[2.5rem] overflow-hidden bg-white/40 backdrop-blur-sm border-2 border-purple-50 shadow-2xl flex items-center justify-center group cursor-pointer relative">
-                  {step.animation ? (
-                    step.animation
-                  ) : (
-                    <>
-                      <div className="absolute inset-0 bg-gradient-to-tr from-purple-100/40 to-indigo-100/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                      <div className="z-10 text-purple-300 group-hover:scale-110 transition-transform duration-700 flex flex-col items-center">
-                        <Camera size={48} className="mb-4 opacity-40" />
-                        <span className="text-[10px] uppercase tracking-[0.4em] font-sans font-bold">Preserve a Moment</span>
-                      </div>
-                    </>
-                  )}
-                  <div className="absolute top-4 left-4 text-2xl opacity-30">🤍</div>
-                  <div className="absolute bottom-4 right-4 text-2xl opacity-30">✨</div>
+                <!-- Nov 2024 -->
+                <div class="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24 reveal">
+                    <div class="flex-1 w-full md:text-right">
+                        <span class="text-purple-300 font-sans font-black text-3xl mb-2 block tracking-tighter opacity-40">Nov 2024</span>
+                        <h3 class="text-3xl mb-4 font-light italic text-purple-900">The Magic Moment</h3>
+                        <p class="text-gray-600 leading-relaxed font-light text-lg">A proposal and the easiest 'Yes' ever spoken. A promise made under the stars to keep writing our story forever.</p>
+                    </div>
+                    <div class="relative z-10 w-24 h-24 rounded-full bg-white border-2 border-purple-100 flex items-center justify-center text-purple-400 shadow-[0_0_30px_rgba(192,132,252,0.3)]">
+                        <i data-lucide="heart" class="w-6 h-6"></i>
+                    </div>
+                    <div class="flex-1 w-full aspect-square md:aspect-[4/3] max-w-sm rounded-[2.5rem] overflow-hidden bg-[#2A1B3D] shadow-2xl relative">
+                        <!-- Ring Animation -->
+                        <div class="relative w-full h-full flex items-center justify-center overflow-hidden">
+                            <svg viewBox="0 0 200 200" class="w-full h-full">
+                                <rect x="60" y="100" width="80" height="40" rx="4" fill="#5B21B6" />
+                                <g class="animate-lid-open">
+                                    <rect x="60" y="60" width="80" height="40" rx="4" fill="#7C3AED" />
+                                </g>
+                                <g class="animate-ring-reveal">
+                                    <ellipse cx="100" cy="100" rx="15" ry="15" fill="none" stroke="#FDE68A" strokeWidth="2.5" />
+                                    <g transform="translate(0, -15)">
+                                        <path d="M100 85 L108 93 L100 101 L92 93 Z" fill="white" class="animate-pulse" />
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            ))}
-          </div>
+
+                <!-- 2026 -->
+                <div class="flex flex-col md:flex-row-reverse items-center justify-center gap-12 md:gap-24 reveal">
+                    <div class="flex-1 w-full md:text-left">
+                        <span class="text-purple-300 font-sans font-black text-3xl mb-2 block tracking-tighter opacity-40">2026</span>
+                        <h3 class="text-3xl mb-4 font-light italic text-purple-900">The Ever After</h3>
+                        <p class="text-gray-600 leading-relaxed font-light text-lg">Join us as we turn the page to our most beautiful chapter yet, surrounded by our favorite people at Sweethome Farm.</p>
+                    </div>
+                    <div class="relative z-10 w-24 h-24 rounded-full bg-white border-2 border-purple-100 flex items-center justify-center text-purple-400 shadow-[0_0_30px_rgba(192,132,252,0.3)]">
+                        <i data-lucide="book-open" class="w-6 h-6"></i>
+                    </div>
+                    <div class="flex-1 w-full aspect-square md:aspect-[4/3] max-w-sm rounded-[2.5rem] overflow-hidden bg-[#3B2B47] shadow-2xl relative">
+                        <!-- Wedding Animation -->
+                        <div class="relative w-full h-full flex items-center justify-center overflow-hidden">
+                            <svg viewBox="0 0 200 200" class="w-4/5 h-4/5">
+                                <g class="animate-cross-glow">
+                                    <line x1="100" y1="30" x2="100" y2="120" stroke="#FDE68A" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
+                                    <line x1="80" y1="60" x2="120" y2="60" stroke="#FDE68A" strokeWidth="4" strokeLinecap="round" opacity="0.8" />
+                                    <circle cx="100" cy="60" r="12" fill="white" class="blur-md animate-pulse" opacity="0.4" />
+                                </g>
+                                <path d="M40 160 Q100 155 160 160" stroke="#A78BFA" strokeWidth="2" fill="none" opacity="0.5" />
+                                <g class="translate-y-10">
+                                    <g transform="translate(-6, 0)">
+                                        <circle cx="100" cy="115" r="8" fill="#D8B4FE" />
+                                        <path d="M90 150 L100 125 L110 150 Z" fill="#D8B4FE" opacity="0.9" />
+                                    </g>
+                                    <g transform="translate(6, 0)">
+                                        <circle cx="100" cy="115" r="8" fill="#FDFCF8" />
+                                        <path d="M85 150 Q100 120 115 150 Z" fill="#FDFCF8" opacity="0.9" />
+                                        <path d="M100 115 Q115 115 125 140" stroke="#FDFCF8" strokeWidth="1" fill="none" opacity="0.5" class="animate-float-slow" />
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <section className="bg-purple-900/5 backdrop-blur-xl py-32 px-6 border-y border-purple-100">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
-          {[
-            { 
-              icon: <Clock />, 
-              title: "The Gathering", 
-              text: "Ceremony begins at 13:30 at the chapel at Sweethome." 
-            },
-            { 
-              icon: <MapPin />, 
-              title: "Sweet Dreams", 
-              text: (
-                <div className="space-y-3">
-                  <p>Visit <a href="https://sweethomeweddings.co.za/accommodations/" target="_blank" rel="noopener noreferrer" className="underline font-bold hover:text-purple-600">this site</a> for accommodation at Sweethome.</p>
-                  <p>There are top quality and highly recommended B&Bs within a 5km radius of the venue:</p>
-                  <ul className="text-xs space-y-1">
-                    <li>• The Pastures</li>
-                    <li>• Insingizi Lodge & Spa</li>
-                    <li>• Gilly’s Guest House</li>
-                    <li>• Angels Way farm</li>
-                  </ul>
+    <!-- Info Cards -->
+    <section class="bg-purple-900/5 backdrop-blur-xl py-32 px-6 border-y border-purple-100">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+            <!-- Gathering -->
+            <div class="bg-white/90 p-12 rounded-[3rem] shadow-sm border border-purple-50 text-center hover:shadow-purple-200/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-3 group reveal">
+                <div class="mx-auto mb-10 w-20 h-20 rounded-3xl bg-purple-50 flex items-center justify-center text-purple-500 group-hover:rotate-12 transition-transform duration-500">
+                    <i data-lucide="clock"></i>
                 </div>
-              )
-            },
-            { 
-              icon: <Sparkles />, 
-              title: "Dress Code", 
-              text: "Smart Formal, with hints of lilac and a touch of fairy dust." 
+                <h3 class="text-2xl font-light italic mb-6 text-purple-900">The Gathering</h3>
+                <div class="text-gray-500 font-sans text-sm leading-relaxed tracking-wide font-light">
+                    Ceremony begins at 13:30 at the chapel at Sweethome.
+                </div>
+            </div>
+
+            <!-- Sweet Dreams -->
+            <div class="bg-white/90 p-12 rounded-[3rem] shadow-sm border border-purple-50 text-center hover:shadow-purple-200/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-3 group reveal" style="transition-delay: 200ms;">
+                <div class="mx-auto mb-10 w-20 h-20 rounded-3xl bg-purple-50 flex items-center justify-center text-purple-500 group-hover:rotate-12 transition-transform duration-500">
+                    <i data-lucide="map-pin"></i>
+                </div>
+                <h3 class="text-2xl font-light italic mb-6 text-purple-900">Sweet Dreams</h3>
+                <div class="text-gray-500 font-sans text-sm leading-relaxed tracking-wide font-light space-y-3">
+                    <p>Visit <a href="https://sweethomeweddings.co.za/accommodations/" target="_blank" rel="noopener noreferrer" class="underline font-bold hover:text-purple-600">this site</a> for accommodation at Sweethome.</p>
+                    <p>There are top quality and highly recommended B&Bs within a 5km radius of the venue:</p>
+                    <ul class="text-xs space-y-1">
+                        <li>• The Pastures</li>
+                        <li>• Insingizi Lodge & Spa</li>
+                        <li>• Gilly’s Guest House</li>
+                        <li>• Angels Way farm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Dress Code -->
+            <div class="bg-white/90 p-12 rounded-[3rem] shadow-sm border border-purple-100 text-center hover:shadow-purple-200/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-3 group reveal" style="transition-delay: 400ms;">
+                <div class="mx-auto mb-10 w-20 h-20 rounded-3xl bg-purple-50 flex items-center justify-center text-purple-500 group-hover:rotate-12 transition-transform duration-500">
+                    <i data-lucide="sparkles"></i>
+                </div>
+                <h3 class="text-2xl font-light italic mb-6 text-purple-900">Dress Code</h3>
+                <div class="text-gray-500 font-sans text-sm leading-relaxed tracking-wide font-light">
+                    Smart Formal, with hints of lilac and a touch of fairy dust.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-40 px-6 text-center reveal">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-16 inline-block animate-bounce-slow">
+                <i data-lucide="sparkles" class="text-purple-400 w-12 h-12"></i>
+            </div>
+            <h2 class="text-5xl md:text-6xl font-light italic mb-12 text-purple-950">Will you help us write the next page?</h2>
+            <p class="mt-20 text-purple-400 font-sans text-[11px] uppercase tracking-[0.5em] italic font-bold">
+                Formal invite to follow
+            </p>
+        </div>
+    </footer>
+
+    <div class="fixed inset-6 border border-purple-200/20 rounded-[4rem] pointer-events-none z-50"></div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Hero Content Fade In
+        window.addEventListener('load', () => {
+            const hero = document.getElementById('hero-content');
+            hero.classList.remove('opacity-0', 'scale-95');
+            hero.classList.add('opacity-100', 'scale-100');
+        });
+
+        // Falling Petals Generator
+        function createPetal() {
+            const container = document.getElementById('petal-container');
+            const petal = document.createElement('div');
+            const isFlower = Math.random() > 0.5;
+            
+            petal.className = 'petal';
+            petal.innerHTML = isFlower ? '💮' : '';
+            
+            // Custom CSS for petal shape if not 💮
+            if (!isFlower) {
+                petal.style.width = '16px';
+                petal.style.height = '20px';
+                petal.style.backgroundColor = 'white';
+                petal.style.borderRadius = '50% 50% 50% 50% / 60% 60% 40% 40%';
+                petal.style.boxShadow = '0 0 5px rgba(255,255,255,0.5)';
+                petal.style.opacity = '0.8';
+                petal.style.transform = 'rotate(45deg)';
+            } else {
+                petal.style.fontSize = (12 + Math.random() * 14) + 'px';
+                petal.style.color = '#FFFFFF';
             }
-          ].map((card, i) => (
-            <div key={i} className="bg-white/90 p-12 rounded-[3rem] shadow-sm border border-purple-50 text-center hover:shadow-purple-200/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-3 group">
-              <div className="mx-auto mb-10 w-20 h-20 rounded-3xl bg-purple-50 flex items-center justify-center text-purple-500 group-hover:rotate-12 transition-transform duration-500">
-                {card.icon}
-              </div>
-              <h3 className="text-2xl font-light italic mb-6 text-purple-900">{card.title}</h3>
-              <div className="text-gray-500 font-sans text-sm leading-relaxed tracking-wide font-light">
-                {card.text}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      <footer className="py-40 px-6 text-center">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-16 inline-block animate-bounce-slow">
-            <Sparkles size={50} className="text-purple-400" />
-          </div>
-          <h2 className="text-5xl md:text-6xl font-light italic mb-12 text-purple-950">Will you help us write the next page?</h2>
-          <p className="mt-20 text-purple-400 font-sans text-[11px] uppercase tracking-[0.5em] italic font-bold">
-            Formal invite to follow
-          </p>
-        </div>
-      </footer>
-      <div className="fixed inset-6 border border-purple-200/20 rounded-[4rem] pointer-events-none z-50"></div>
-    </div>
-  );
-};
+            const left = Math.random() * 100;
+            const delay = Math.random() * 10;
+            const duration = 12 + Math.random() * 18;
 
-export default App;
+            petal.style.left = left + '%';
+            petal.style.animationDelay = delay + 's';
+            petal.style.animationDuration = duration + 's';
+            
+            container.appendChild(petal);
+
+            // Cleanup
+            setTimeout(() => {
+                petal.remove();
+            }, (delay + duration) * 1000);
+        }
+
+        // Spawn initial petals and keep spawning
+        for (let i = 0; i < 25; i++) {
+            createPetal();
+        }
+        setInterval(createPetal, 1000);
+
+        // Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(reveal => revealObserver.observe(reveal));
+    </script>
+</body>
+</html>
